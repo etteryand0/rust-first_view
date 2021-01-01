@@ -3,20 +3,21 @@ use rand::Rng; // cargo doc --open
 use std::cmp::Ordering;
 
 fn main() {
-    println!("Hello, world!");
-    
     let secret_number = rand::thread_rng().gen_range(1,100);
     println!("Secret number {}", secret_number);
     
     loop {
+        println!("Please input your guess:");
+
         let mut guess = String::new();
         io::stdin()
             .read_line(&mut guess)
             .expect("Failed to read line!");
 
-        let guess: u32 = guess.trim()
-                            .parse()
-                            .expect("Please type a number!");
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue, // next iteration
+        };
 
         println!("You guessed {}", guess);
 
